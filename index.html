@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wheel of Tober</title>
+    <style>
+      #output {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wheel of Tober</h1>
+
+    <h3>Select a question:</h3>
+    <button class="questionBtn">Are we doing that song?</button>
+    <button class="questionBtn">What are we wearing?</button>
+
+    <h3>OR....Enter your own question:</h3>
+    <input type="text" id="question" />
+    <button id="submitBtn">Alistair's Answer</button>
+    <p id="output"></p>
+
+    <script>
+      // Array of quotes
+      const quotes = [
+        "the Planner is totally chill",
+        "She's gettin after it",
+        "these people came to party",
+        "yea guys!",
+        "no stress",
+        "we call it Sammie",
+        "step touch and tickle",
+        "what do you guys wanna play",
+        "dude",
+        "whatever you want man",
+        "it's all good",
+      ];
+
+      // Object containing additional questions and answers
+      const additionalAnswers = {
+        "Are we doing that song?": "Sure, whatever you want, no stress",
+        "What are we wearing?": "Whatever you want, no stress",
+      };
+
+      // Event listeners for the question buttons
+      const questionBtns = document.getElementsByClassName("questionBtn");
+      for (let i = 0; i < questionBtns.length; i++) {
+        questionBtns[i].addEventListener("click", function () {
+          // Set the clicked question as the value of the question input
+          document.getElementById("question").value =
+            questionBtns[i].textContent;
+        });
+      }
+
+      // Event listener for the submit button
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", function () {
+          // Get the question input value
+          const question = document.getElementById("question").value;
+
+          // If the question is not empty
+          if (question.trim() !== "") {
+            // Check if the question exists in the additional answers object
+            if (question in additionalAnswers) {
+              // Display the specific answer for the question
+              document.getElementById("output").textContent =
+                additionalAnswers[question];
+            } else {
+              // Randomly select a quote from the array
+              const randomQuote =
+                quotes[Math.floor(Math.random() * quotes.length)];
+
+              // Display the quote as the answer
+              document.getElementById("output").textContent = randomQuote;
+            }
+          }
+        });
+    </script>
+  </body>
+</html>
