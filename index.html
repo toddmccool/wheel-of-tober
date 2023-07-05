@@ -4,78 +4,68 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wheel of Tober</title>
-
     <style>
-      body {
+      .container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .card {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        perspective: 1000px;
+        margin: 0 auto;
+      }
+
+      #at2pic {
+        width: 100%;
+        height: 100%;
         background-image: url("at2pic.jpg");
         background-size: cover;
-        background-position: center top;
-        background-repeat: no-repeat;
-        background-color: rgba(255, 255, 255, 0.6);
-        font-size: 35px;
-        color: black;
-        margin: 0;
       }
 
-      #output {
-        margin-top: 20px;
-        font-weight: bold;
-        font-size: 28px;
-        color: black;
-        background-color: rgba(255, 255, 255, 0.7);
-        padding: 20px;
-        border-radius: 10px;
-        display: inline-block;
+      .rotate-once {
+        animation: rotateOnce 4s linear forwards;
       }
 
-      h1,
-      h3 {
-        text-align: left;
-        color: white;
-        margin: 0;
-        padding: 10px;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: inline-block; /* Added to make the element fit the text width */
-      }
-
-      .questionBtn {
-        display: inline-block; /* Changed from block to inline-block */
-        margin-bottom: 10px;
-        background-color: rgba(0, 0, 0, 0.7);
-        padding: 10px 20px;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-      }
-
-      .questionBtn:hover {
-        background-color: rgba(255, 255, 255, 0.7);
-        color: black;
+      @keyframes rotateOnce {
+        0% {
+          transform: rotate(0);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Wheel of Tober</h1>
-    <br />
-    <br />
+    <div class="container">
+      <div class="card">
+        <div id="at2pic"></div>
+      </div>
 
-    <h3>Select a question:</h3>
-    <br />
-    <button class="questionBtn">Are we doing that song?</button>
-    <button class="questionBtn">What are we wearing?</button>
+      <div id="output"></div>
 
-    <button class="questionBtn">What time is soundcheck?</button>
-    <button class="questionBtn">Can we drink (on the gig)?</button>
-    <button class="questionBtn">where's the sammie to that song?</button>
+      <h1>Wheel of Tober</h1>
+      <br />
+      <br />
 
-    <br />
-    <h3>OR... Enter your own question:</h3>
-    <label for="question">:</label>
-    <input type="text" id="question" />
-    <button id="submitBtn">Alistair's Answer</button>
-    <p id="output"></p>
+      <h3>Select a question:</h3>
+      <br />
+      <button class="questionBtn">Are we doing that song?</button>
+      <button class="questionBtn">What are we wearing?</button>
+      <button class="questionBtn">What time is soundcheck?</button>
+      <button class="questionBtn">Can we drink (on the gig)?</button>
+      <button class="questionBtn">where's the sammie to that song?</button>
+
+      <br />
+      <h3>OR... Enter your own question:</h3>
+      <label for="question">:</label>
+      <input type="text" id="question" />
+      <button id="submitBtn">Alistair's Answer</button>
+      <p id="answer"></p>
+    </div>
 
     <script>
       // Array of quotes
@@ -111,15 +101,20 @@
         "What are we wearing?": "Whatever you want, no stress",
         "What time is soundcheck?": "9 hours before the gig ends",
         "Can we drink (on the gig)?":
-          "you can order something from the bar, but don't all go at the same time",
-        "where's the sammie to that song?": "it's in a medley",
+          "You can order something from the bar, but don't all go at the same time",
+        "where's the sammie to that song?": "It's in a medley",
       };
+
+      // Function to select a random quote
+      function getRandomQuote() {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        return quotes[randomIndex];
+      }
 
       // Event listeners for the question buttons
       const questionBtns = document.getElementsByClassName("questionBtn");
       for (let i = 0; i < questionBtns.length; i++) {
         questionBtns[i].addEventListener("click", function () {
-          // Set the clicked question as the value of the question input
           document.getElementById("question").value =
             questionBtns[i].textContent;
         });
@@ -129,25 +124,17 @@
       document
         .getElementById("submitBtn")
         .addEventListener("click", function () {
-          // Get the question input value
           const question = document.getElementById("question").value;
+          const answer = additionalAnswers[question] || getRandomQuote();
 
-          // If the question is not empty
-          if (question.trim() !== "") {
-            // Check if the question exists in the additional answers object
-            if (question in additionalAnswers) {
-              // Display the specific answer for the question
-              document.getElementById("output").textContent =
-                additionalAnswers[question];
-            } else {
-              // Randomly select a quote from the array
-              const randomQuote =
-                quotes[Math.floor(Math.random() * quotes.length)];
+          const at2pic = document.getElementById("at2pic");
+          const output = document.getElementById("answer");
 
-              // Display the quote as the answer
-              document.getElementById("output").textContent = randomQuote;
-            }
-          }
+          at2pic.classList.add("rotate-once");
+          at2pic.addEventListener("animationend", function () {
+            output.textContent = answer;
+            at2pic.classList.remove("rotate-once");
+          });
         });
     </script>
   </body>
