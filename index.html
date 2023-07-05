@@ -57,7 +57,10 @@
       <button class="questionBtn">What are we wearing?</button>
       <button class="questionBtn">What time is soundcheck?</button>
       <button class="questionBtn">Can we drink (on the gig)?</button>
-      <button class="questionBtn">where's the sammie to that song?</button>
+      <button class="questionBtn">Where's the sammie to that song?</button>
+      <button class="questionBtn">Address the Audience</button>
+      <button class="questionBtn">Greet Band Member</button>
+      <button class="questionBtn">What time do we start?</button>
 
       <br />
       <h3>OR... Enter your own question:</h3>
@@ -96,13 +99,30 @@
       ];
 
       // Object containing additional questions and answers
+
       const additionalAnswers = {
         "Are we doing that song?": "Sure, whatever you want, no stress",
         "What are we wearing?": "Whatever you want, no stress",
         "What time is soundcheck?": "9 hours before the gig ends",
         "Can we drink (on the gig)?":
           "You can order something from the bar, but don't all go at the same time",
-        "where's the sammie to that song?": "It's in a medley",
+        "Where's the sammie to that song?": "It's in a medley",
+        "Address the Audience": [
+          "We're gonna go until they kick us out, is that okay?",
+          "Dinner will be served",
+          "Shall We??!!",
+          // Add more random answers here
+        ],
+        "Greet Band Member": [
+          "Shall We?!",
+          "Life is Easy",
+          "These People Came to Party",
+          "You Good?",
+          "Is that what you're wearing?",
+          "Did you get enough to eat?",
+          // Add more random answers here
+        ],
+        "What time do we start?": "Take your time, we start in 30 seconds",
       };
 
       // Function to select a random quote
@@ -125,7 +145,20 @@
         .getElementById("submitBtn")
         .addEventListener("click", function () {
           const question = document.getElementById("question").value;
-          const answer = additionalAnswers[question] || getRandomQuote();
+          let answer;
+
+          if (additionalAnswers.hasOwnProperty(question)) {
+            if (Array.isArray(additionalAnswers[question])) {
+              const randomIndex = Math.floor(
+                Math.random() * additionalAnswers[question].length
+              );
+              answer = additionalAnswers[question][randomIndex];
+            } else {
+              answer = additionalAnswers[question];
+            }
+          } else {
+            answer = getRandomQuote();
+          }
 
           const at2pic = document.getElementById("at2pic");
           const output = document.getElementById("answer");
