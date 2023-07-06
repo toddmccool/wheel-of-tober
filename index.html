@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wheel of Tober</title>
     <style>
+      .questionBtn {
+        font-weight: bold;
+        color: rgb(198, 14, 14);
+      }
+
       .container {
         text-align: center;
         margin-top: 20px;
@@ -40,16 +45,13 @@
     </style>
   </head>
   <body>
+    <h1>Wheel of Tober</h1>
     <div class="container">
       <div class="card">
         <div id="at2pic"></div>
       </div>
 
       <div id="output"></div>
-
-      <h1>Wheel of Tober</h1>
-      <br />
-      <br />
 
       <h3>Select a question:</h3>
       <br />
@@ -73,40 +75,55 @@
     <script>
       // Array of quotes
       const quotes = [
-        "the Planner is totally chill",
-        "She's gettin after it",
-        "these people came to party",
-        "yea guys!",
         "no stress",
         "we call it Sammie",
         "step touch and tickle",
-        "what do you guys wanna play?",
         "dude",
-        "whatever you want man",
+        "whatever you want",
         "it's all good",
         "dude, whatever you guys want",
         "let me find the planner",
-        "did you get enough to eat",
         "no dinner set, I'm already over this gig",
         "shall we?!",
-        "we're gonna go until they kick us out",
-        "wanna skip the break and play straight through?",
-        "Is that what you're gonna wear?",
-        "it's in the G drive link i sent you",
+        "how about we skip the break and play straight through?",
         "life is good",
         "life is easy",
         "so, here's the deal...",
       ];
 
       // Object containing additional questions and answers
-
       const additionalAnswers = {
-        "Are we doing that song?": "Sure, whatever you want, no stress",
-        "What are we wearing?": "Whatever you want, no stress",
-        "What time is soundcheck?": "9 hours before the gig ends",
-        "Can we drink (on the gig)?":
-          "You can order something from the bar, but don't all go at the same time",
-        "Where's the sammie to that song?": "It's in a medley",
+        "Are we doing that song?": [
+          "if you want to",
+          "Absolutely not",
+          "it's in the setlist",
+          // Add more random answers here
+        ],
+        "What are we wearing?": [
+          "Wear whatever makes you comfortable",
+          "Dress to impress",
+          "did you get the mood board?",
+          "whatever you want, no stress",
+          // Add more random answers here
+        ],
+        "What time is soundcheck?": [
+          "9 hours before the end of the gig",
+          "10 hours before the gig ends",
+          "9 hours before we end",
+          // Add more random answers here
+        ],
+        "Can we drink (on the gig)?": [
+          "You can order something from the bar, but don't all go at once",
+          "If you need to, You can order something from the bar, but don't all go at once",
+          "You can order something from the bar, but don't all go at once",
+          // Add more random answers here
+        ],
+        "Where's the sammie to that song?": [
+          "it's in a medley",
+          "there's no sammie",
+          "it's in the G drive",
+          // Add more random answers here
+        ],
         "Address the Audience": [
           "We're gonna go until they kick us out, is that okay?",
           "Dinner will be served",
@@ -122,13 +139,22 @@
           "Did you get enough to eat?",
           // Add more random answers here
         ],
-        "What time do we start?": "Take your time, we start in 30 seconds",
-      };
-
-      // Function to select a random quote
+        "What time do we start?": [
+          "Take your time, we start in 30 seconds",
+          "Right Now, is that ok?",
+          "we should already be playing, is that ok?",
+          // Add more random answers here
+        ],
+      }; // Function to select a random quote
       function getRandomQuote() {
         const randomIndex = Math.floor(Math.random() * quotes.length);
         return quotes[randomIndex];
+      }
+
+      // Function to select a random answer from a pool
+      function getRandomAnswer(pool) {
+        const randomIndex = Math.floor(Math.random() * pool.length);
+        return pool[randomIndex];
       }
 
       // Event listeners for the question buttons
@@ -136,7 +162,7 @@
       for (let i = 0; i < questionBtns.length; i++) {
         questionBtns[i].addEventListener("click", function () {
           document.getElementById("question").value =
-            questionBtns[i].textContent;
+            questionBtns[i].textContent.trim();
         });
       }
 
@@ -144,18 +170,11 @@
       document
         .getElementById("submitBtn")
         .addEventListener("click", function () {
-          const question = document.getElementById("question").value;
+          const question = document.getElementById("question").value.trim();
           let answer;
 
           if (additionalAnswers.hasOwnProperty(question)) {
-            if (Array.isArray(additionalAnswers[question])) {
-              const randomIndex = Math.floor(
-                Math.random() * additionalAnswers[question].length
-              );
-              answer = additionalAnswers[question][randomIndex];
-            } else {
-              answer = additionalAnswers[question];
-            }
+            answer = getRandomAnswer(additionalAnswers[question]);
           } else {
             answer = getRandomQuote();
           }
