@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wheel of Tober</title>
     <style>
+      h1 {
+        text-align: center;
+      }
+      body {
+        background-color: yellow;
+      }
+
       .questionBtn {
         font-weight: bold;
         color: rgb(198, 14, 14);
@@ -63,10 +70,11 @@
       <button class="questionBtn">Address the Audience</button>
       <button class="questionBtn">Greet Band Member</button>
       <button class="questionBtn">What time do we start?</button>
+      <button class="questionBtn">How much extra do we get for that?</button>
 
       <br />
       <h3>OR... Enter your own question:</h3>
-      <label for="question">:</label>
+      <label for="question">--></label>
       <input type="text" id="question" />
       <button id="submitBtn">Alistair's Answer</button>
       <p id="answer"></p>
@@ -89,6 +97,7 @@
         "life is good",
         "life is easy",
         "so, here's the deal...",
+        "is that cool?",
       ];
 
       // Object containing additional questions and answers
@@ -97,6 +106,7 @@
           "if you want to",
           "Absolutely not",
           "it's in the setlist",
+          "is that ok with you?",
           // Add more random answers here
         ],
         "What are we wearing?": [
@@ -139,6 +149,15 @@
           "Did you get enough to eat?",
           // Add more random answers here
         ],
+
+        "How much extra do we get for that?": [
+          "0",
+          "you actually make less",
+          "nothing",
+
+          // Add more random answers here
+        ],
+
         "What time do we start?": [
           "Take your time, we start in 30 seconds",
           "Right Now, is that ok?",
@@ -184,7 +203,7 @@
 
           at2pic.classList.add("rotate-once");
           at2pic.addEventListener("animationend", function () {
-            output.textContent = answer;
+            output.innerHTML = "<strong>" + answer + "</strong>";
             at2pic.classList.remove("rotate-once");
           });
         });
